@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "head.h"
+#include "get_next_line.h"
 
 char	*ft_strndup(char *buff, t_s64 n)
 {

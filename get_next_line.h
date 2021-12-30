@@ -24,6 +24,8 @@ typedef long long	t_s64;
 #  define BUFFER_SIZE 8
 # endif
 
+char	*get_next_line(int fd);
+char	*ft_cleanlione(char *line);
 char	*ft_strndup(char *buff, t_s64 n);
 t_s64	ft_strlen(char *s);
 t_s64	ft_eol(char *s);

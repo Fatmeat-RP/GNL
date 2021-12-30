@@ -1,4 +1,4 @@
-#include "head.h"
+#include "get_next_line.h"
 
 char	*ft_cleanlione(char *line)
 {
@@ -24,7 +24,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	rd = read(fd, buf, BUFFER_SIZE);
 	buf[rd] = 0;
-	if ((ft_strchr(line, '\n') == NULL) && !rd)
+	if (!rd && ft_strchr(line, '\n') == NULL)
 		return (NULL);
 	line = ft_strjoin(line, buf);
 	while (ft_eol(line) < 0 && rd)
@@ -42,14 +42,14 @@ int	main(void)
 {
 	char	*line;
 	int	fd;
-	int	i = 10;
+	int	i = 100182;
 
-	fd = open("new", O_RDONLY);
+	fd = open("bible.txt", O_RDONLY);
 	while (i)
 	{
 		line = get_next_line(fd);
-		printf("%s", line);
 		i--;
+		free (line);
 	}
 	close(fd);
 	return (0);
