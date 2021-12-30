@@ -1,83 +1,56 @@
 #include "head.h"
 
-static char	*ft_read(char *line, int fd)
-/*{
-	char		buf[BUFFER_SIZE + 1];
-	char		*ret;
-	int			rd;
-	t_s64		n;
+char	*ft_cleanlione(char *line)
+{
+	char			*tmp;
 
-	n = -1;
-	while (n < 0)
-	{
-		rd = read(fd, buf, BUFFER_SIZE);
-		line = ft_strnjoin(line, buf, rd);
-		n = ft_eol(line);
-	}
-	ret = ft_strndup(line, n);
-	return (ret);
-}*/
-/*	rd = read(fd, buf, BUFFER_SIZE);
-	if (!line)
-		line = ft_strndup(buf, rd);
-	else
-		line = ft_strnjoin(line, buf, n);
-	while (ft_eol(line) < 0)
-	{
-		rd = read(fd, buf, BUFFER_SIZE);
-		line = ft_strnjoin(line, buf, n);
-	}
-	n = ft_eol(line);
-	if (n >= 0)
-	{
-		ret = ft_strndup(line, n + 1);
-		line += (size_t)(n + 1);
-	}
-	if (!rd && !line)
-		return(NULL);
-	return (NULL);
-	while (rd)
-	{
-		if (rd < 0 || (!rd && !line))
-			return (NULL);
-		n = ft_eol(line);
-		if (n >= 0)
-		{
-			ret = ft_strndup(line, n + 1);
-			line += (size_t)(n + 1);
-			break ;
-		}
-		rd = read(fd, buf, BUFFER_SIZE);
-		line = ft_strnjoin(line, buf, n);
-	}
-	return (ret);
-}*/
+	tmp = ft_strndup((ft_strchr(line, '\n') + 1)
+		, ft_strlen(ft_strchr(line, '\n')));
+	free (line);
+	line = ft_strndup(tmp, ft_strlen(tmp));
+	free (tmp);
+	return (line);
+}
 
 char	*get_next_line(int fd)
 {
 	static char	*line;
+	char			buf[BUFFER_SIZE + 1];
+	char			*ret;
+	int			rd;
+	t_s64			n;
 
 	if (fd < 0)
 		return (NULL);
-	return (ft_read(line, fd));
+	rd = read(fd, buf, BUFFER_SIZE);
+	buf[rd] = 0;
+	if ((ft_strchr(line, '\n') == NULL) && !rd)
+		return (NULL);
+	line = ft_strjoin(line, buf);
+	while (ft_eol(line) < 0 && rd)
+	{
+		rd = read(fd, buf, BUFFER_SIZE);
+		line = ft_strjoin(line, buf);
+	}
+	n = ft_eol(line) + 1;
+	ret = ft_strndup(line, n);
+	line = ft_cleanlione(line);
+	return (ret);
 }
 
 int	main(void)
 {
+	char	*line;
 	int	fd;
-	int	i = 1;
+	int	i = 10;
 
 	fd = open("new", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+	while (i)
+	{
+		line = get_next_line(fd);
+		printf("%s", line);
+		i--;
+	}
+	close(fd);
 	return (0);
 }

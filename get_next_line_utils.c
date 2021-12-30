@@ -30,26 +30,6 @@ char	*ft_strndup(char *buff, t_s64 n)
 	return (s);
 }
 
-char	*ft_strnjoin(char *dst, char *buf, t_s64 n)
-{
-	char	*s;
-	t_s64	i;
-	t_s64	j;
-
-	i = 0;
-	j = ft_strlen(dst);
-	s = malloc(j + n + 1);
-	if (!s)
-		return (NULL);
-	while (i++ < j)
-		s[i] = dst[i];
-	while (i++ < (j + n))
-		s[i] = buf[i - j];
-	s[i] = 0;
-	free(dst);
-	return (s);
-}
-
 t_s64	ft_strlen(char *s)
 {
 	t_s64	i;
@@ -76,4 +56,48 @@ t_s64	ft_eol(char *s)
 		i++;
 	}
 	return (i);
+}
+
+char	*ft_strchr(char *s, int c)
+{
+	char	*p;
+
+	if (!s)
+		return (NULL);
+	p = s;
+	while (*p != (char)c)
+	{
+		if (*p == 0)
+			return (NULL);
+		p++;
+	}
+	return (p);
+}
+
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*s;
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = ft_strlen(s1);
+	s = malloc(j + ft_strlen(s2) + 1);
+	if (!s)
+		return (NULL);
+	while (i < j)
+	{
+		s[i] = s1[i];
+		i++;
+	}
+	while (i < (j + ft_strlen(s2)))
+	{
+		s[i] = s2[i - j];
+		i++;
+	}
+	s[i] = 0;
+	if (s1)
+		free(s1);
+	return (s);
 }
