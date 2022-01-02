@@ -30,6 +30,6 @@ char	*ft_strndup(char *buff, t_s64 n);
 t_s64	ft_strlen(char *s);
 t_s64	ft_eol(char *s);
 char	*ft_strchr(char *s, int c);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char *s1, char *s2, int rd);
 
 #endif

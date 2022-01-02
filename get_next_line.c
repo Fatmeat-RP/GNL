@@ -2,14 +2,34 @@
 
 char	*ft_cleanlione(char *line)
 {
-	char			*tmp;
+	char	*tmp;
+	char	*p;
+	t_s64	k;
 
-	tmp = ft_strndup((ft_strchr(line, '\n') + 1)
-		, ft_strlen(ft_strchr(line, '\n')));
+	p = ft_strchr(line, '\n');
+	k = ft_strlen(p);
+	tmp = ft_strndup((p + 1), k);
 	free (line);
-	line = ft_strndup(tmp, ft_strlen(tmp));
+	line = ft_strndup(tmp, k);
 	free (tmp);
 	return (line);
+}
+
+char	*ft_strrchr(char *s, int c)
+{
+	char	*p;
+	char	*tmp;
+
+	p = s + ft_strlen(s);
+	tmp = s;
+	while ((p >= s) && (p != tmp))
+	{
+		if (*p == (char)c)
+			return (p);
+		p--;
+		tmp++;
+	}
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
@@ -24,13 +44,13 @@ char	*get_next_line(int fd)
 		return (NULL);
 	rd = read(fd, buf, BUFFER_SIZE);
 	buf[rd] = 0;
-	if (!rd && ft_strchr(line, '\n') == NULL)
+	if (!rd && ft_strrchr(line, '\n') == NULL)
 		return (NULL);
-	line = ft_strjoin(line, buf);
+	line = ft_strjoin(line, buf, rd);
 	while (ft_eol(line) < 0 && rd)
 	{
 		rd = read(fd, buf, BUFFER_SIZE);
-		line = ft_strjoin(line, buf);
+		line = ft_strjoin(line, buf, rd);
 	}
 	n = ft_eol(line) + 1;
 	ret = ft_strndup(line, n);
@@ -42,13 +62,11 @@ int	main(void)
 {
 	char	*line;
 	int	fd;
-	int	i = 100182;
 
 	fd = open("bible.txt", O_RDONLY);
-	while (i)
+	while (line = get_next_line(fd))
 	{
-		line = get_next_line(fd);
-		i--;
+		printf("%s", line);
 		free (line);
 	}
 	close(fd);

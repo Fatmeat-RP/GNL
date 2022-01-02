@@ -75,15 +75,15 @@ char	*ft_strchr(char *s, int c)
 }
 
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char *s1, char *s2, int rd)
 {
 	char	*s;
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = ft_strlen(s1);
-	s = malloc(j + ft_strlen(s2) + 1);
+	s = malloc(j + rd + 1);
 	if (!s)
 		return (NULL);
 	while (i < j)
@@ -91,13 +91,13 @@ char	*ft_strjoin(char *s1, char *s2)
 		s[i] = s1[i];
 		i++;
 	}
-	while (i < (j + ft_strlen(s2)))
+	while (i < (j + rd))
 	{
 		s[i] = s2[i - j];
 		i++;
 	}
 	s[i] = 0;
-	if (s1)
+	if (j)
 		free(s1);
 	return (s);
 }
