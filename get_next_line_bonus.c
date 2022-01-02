@@ -59,7 +59,7 @@ char	*get_next_line(int fd)
 	line[fd] = ft_cleanlione(line[fd]);
 	return (ret);
 }
-
+/*
 int	main(void)
 {
 	char	*line;
@@ -73,4 +73,4 @@ int	main(void)
 	}
 	close(fd);
 	return (0);
-}
+}*/
