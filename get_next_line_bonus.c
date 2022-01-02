@@ -27,7 +27,8 @@ char	*ft_strrchr(char *s, int c)
 		if (*p == (char)c)
 			return (p);
 		p--;
-		tmp++;
+		if (*tmp != (char)c)
+			tmp++;
 	}
 	return (NULL);
 }
