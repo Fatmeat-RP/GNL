@@ -51,6 +51,7 @@ char	*get_next_line(int fd)
 	while (ft_eol(line) < 0 && rd)
 	{
 		rd = read(fd, buf, BUFFER_SIZE);
+		buf[rd] = 0;
 		line = ft_strjoin(line, buf, rd);
 	}
 	n = ft_eol(line) + 1;
