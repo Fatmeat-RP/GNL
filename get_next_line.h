@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   head.h                                             :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acarle-m <acarle-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 01:35:00 by acarle-m          #+#    #+#             */
-/*   Updated: 2021/12/29 03:35:36 by acarle-m         ###   ########.fr       */
+/*   Updated: 2022/01/04 01:45:28 by acarle-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEAD_H
-# define HEAD_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # include	<stdio.h>
 # include	<unistd.h>
@@ -19,6 +19,13 @@
 # include	<fcntl.h>
 
 typedef long long	t_s64;
+typedef struct s_struct
+{
+	char	buf[BUFFER_SIZE + 1];
+	char	*ret;
+	int		rd;
+	t_s64	n;
+}		t_struct;
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 8
@@ -27,10 +34,8 @@ typedef long long	t_s64;
 char	*get_next_line(int fd);
 char	*ft_cleanlione(char *line);
 char	*ft_strndup(char *buff, t_s64 n);
-t_s64	ft_strlen(char *s);
-t_s64	ft_eol(char *s);
+t_s64	ft_strlen(char *s, int a);
 char	*ft_strchr(char *s, int c);
-char	*ft_strrchr(char *s, int c);
 char	*ft_strjoin(char *s1, char *s2, int rd);
 
 #endif

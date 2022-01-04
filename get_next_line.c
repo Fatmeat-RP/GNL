@@ -7,57 +7,37 @@ char	*ft_cleanlione(char *line)
 	t_s64	k;
 
 	p = ft_strchr(line, '\n');
-	k = ft_strlen(p);
-	tmp = ft_strndup((p + 1), k);
+	k = ft_strlen(p, 2) - 1;
+	tmp = ft_strjoin(NULL, (p + 1), k);
 	free (line);
-	line = ft_strndup(tmp, k);
-	free (tmp);
-	return (line);
-}
-
-char	*ft_strrchr(char *s, int c)
-{
-	char	*p;
-	char	*tmp;
-
-	p = s + ft_strlen(s);
-	tmp = s;
-	while ((p >= s) && (p != tmp))
-	{
-		if (*p == (char)c)
-			return (p);
-		p--;
-		if (*tmp != (char)c)
-			tmp++;
-	}
-	return (NULL);
+	return (tmp);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*line;
-	char			buf[BUFFER_SIZE + 1];
-	char			*ret;
-	int			rd;
-	t_s64			n;
+	t_struct	st;
 
-	if (fd < 0)
-		return (NULL);
-	rd = read(fd, buf, BUFFER_SIZE);
-	buf[rd] = 0;
-	if (!rd && ft_strrchr(line, '\n') == NULL)
-		return (NULL);
-	line = ft_strjoin(line, buf, rd);
-	while (ft_eol(line) < 0 && rd)
+	st.rd = read(fd, st.buf, BUFFER_SIZE);
+	if ((!st.rd && ft_strchr(line, '\n') == NULL) || (st.rd == -1))
 	{
-		rd = read(fd, buf, BUFFER_SIZE);
-		buf[rd] = 0;
-		line = ft_strjoin(line, buf, rd);
+		if (line)
+			free (line);
+		return (NULL);
 	}
-	n = ft_eol(line) + 1;
-	ret = ft_strndup(line, n);
+	st.buf[st.rd] = 0;
+	if (st.rd)
+		line = ft_strjoin(line, st.buf, st.rd);
+	while (ft_strchr(line, '\n') == NULL && st.rd > 0)
+	{
+		st.rd = read(fd, st.buf, BUFFER_SIZE);
+		st.buf[st.rd] = 0;
+		line = ft_strjoin(line, st.buf, st.rd);
+	}
+	st.n = ft_strlen(line, 1) + 1;
+	st.ret = ft_strjoin(NULL, line, st.n);
 	line = ft_cleanlione(line);
-	return (ret);
+	return (st.ret);
 }
 /*
 int	main(void)
@@ -65,8 +45,8 @@ int	main(void)
 	char	*line;
 	int	fd;
 
-	fd = open("bible.txt", O_RDONLY);
-	while (line = get_next_line(fd))
+	fd = open("test/bible.txt", O_RDONLY);
+	while ((line = get_next_line(fd)))
 	{
 		printf("%s", line);
 		free (line);
