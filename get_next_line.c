@@ -6,10 +6,16 @@ char	*ft_cleanlione(char *line)
 	char	*p;
 	t_s64	k;
 
-	p = ft_strchr(line, '\n');
-	k = ft_strlen(p, 2) - 1;
-	tmp = ft_strjoin(NULL, (p + 1), k);
-	free (line);
+	if (line != NULL)
+	{
+		p = ft_strchr(line, '\n');
+		k = ft_strlen(p, 2) - 1;
+		tmp = ft_strjoin(NULL, (p + 1), k);
+		free (line);
+		return (tmp);
+	}
+	else
+		tmp = NULL;
 	return (tmp);
 }
 
@@ -21,16 +27,19 @@ char	*get_next_line(int fd)
 	st.rd = read(fd, st.buf, BUFFER_SIZE);
 	if ((!st.rd && ft_strchr(line, '\n') == NULL) || (st.rd == -1))
 	{
-		if (line)
-			free (line);
+		if (line != NULL)
+			free(line);
 		return (NULL);
 	}
-	st.buf[st.rd] = 0;
+	if (st.rd)
+		st.buf[st.rd] = 0;
 	if (st.rd)
 		line = ft_strjoin(line, st.buf, st.rd);
 	while (ft_strchr(line, '\n') == NULL && st.rd > 0)
 	{
 		st.rd = read(fd, st.buf, BUFFER_SIZE);
+		if (!st.rd)
+			break ;
 		st.buf[st.rd] = 0;
 		line = ft_strjoin(line, st.buf, st.rd);
 	}

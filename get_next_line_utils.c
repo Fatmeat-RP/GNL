@@ -55,10 +55,14 @@ char	*ft_strjoin(char *s1, char *s2, int rd)
 	s = malloc(j + rd + 2);
 	if (!s)
 		return (NULL);
-	while (i < j)
+	if (s1)
 	{
-		s[i] = s1[i];
-		i++;
+		while (i < j)
+		{
+			s[i] = s1[i];
+			i++;
+		}
+		free (s1);
 	}
 	while (i < (j + rd))
 	{
@@ -66,7 +70,5 @@ char	*ft_strjoin(char *s1, char *s2, int rd)
 		i++;
 	}
 	s[i] = 0;
-	if (s1)
-		free(s1);
 	return (s);
 }
