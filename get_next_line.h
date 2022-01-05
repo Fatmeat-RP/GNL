@@ -6,7 +6,7 @@
 /*   By: acarle-m <acarle-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 01:35:00 by acarle-m          #+#    #+#             */
-/*   Updated: 2022/01/04 23:24:49 by acarle-m         ###   ########.fr       */
+/*   Updated: 2022/01/05 16:54:35 by acarle-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@
 # include	<unistd.h>
 # include	<stdlib.h>
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 8
+# endif
+
 typedef long long	t_s64;
 typedef struct s_struct
 {
@@ -25,10 +29,6 @@ typedef struct s_struct
 	int		rd;
 	t_s64	n;
 }		t_struct;
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 8
-# endif
 
 char	*get_next_line(int fd);
 
