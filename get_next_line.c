@@ -92,7 +92,6 @@ char	*get_next_line(int fd)
 	if (line)
 		line = ft_cleanlione(line);
 	st.rd = read(fd, st.buf, BUFFER_SIZE);
-	st.buf[st.rd] = 0;
 	if ((!st.rd && ft_strchr(line, '\n') == NULL && !ft_strlen(line, 2))
 		|| (st.rd == -1))
 	{
@@ -100,6 +99,7 @@ char	*get_next_line(int fd)
 			free(line);
 		return (NULL);
 	}
+	st.buf[st.rd] = 0;
 	line = ft_strjoin(line, st.buf, st.rd);
 	while (ft_strchr(line, '\n') == NULL && st.rd == BUFFER_SIZE)
 	{
